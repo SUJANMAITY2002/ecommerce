@@ -14,7 +14,7 @@ export const  instance = new Razorpay({
 
 
 app.use('/api/auth', AuthRouter);
-
+//console.log (process.env.FRONTEND_URL);
 
 
 

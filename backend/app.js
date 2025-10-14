@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import payment from './routes/productRoutes.js';
+import dotenv from 'dotenv';
+dotenv.config({path:"./.env"});
 
 const app = express();
 
@@ -9,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(cors({
-  origin: "http://localhost:5173", // frontend vite server
+  origin: process.env.FRONTEND_URL, // frontend vite server
   credentials: true
 }));
 
