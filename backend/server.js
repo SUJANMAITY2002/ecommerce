@@ -3,22 +3,25 @@ import dotenv from 'dotenv';
 import Razorpay from 'razorpay';
 import AuthRouter from './routes/AuthRouter.js';
 import './Models/db.js';
-dotenv.config({path:"./.env"});
+import cors from "cors";   // ✅ ADD THIS
 
-const port=process.env.PORT || 3000;
+dotenv.config({ path: "./.env" });
 
-export const  instance = new Razorpay({
+const port = process.env.PORT || 3000;
+
+// ✅ ADD THIS BLOCK (VERY IMPORTANT)
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
+export const instance = new Razorpay({
   key_id: process.env.RAZORPAY_API_KEY,
   key_secret: process.env.RAZORPAY_API_SECRET,
-})
-
+});
 
 app.use('/api/auth', AuthRouter);
-//console.log (process.env.FRONTEND_URL);
 
-
-
-app.listen(port,()=>{
-    console.log(`server is running on port ${port}`);
-    
-})
+app.listen(port, () => {
+  console.log(`server is running on port ${port}`);
+});
