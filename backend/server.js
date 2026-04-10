@@ -10,10 +10,10 @@ dotenv.config({ path: "./.env" });
 const port = process.env.PORT || 3000;
 
 // ✅ ADD THIS BLOCK (VERY IMPORTANT)
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+// app.use(cors({
+//   origin: "http://localhost:5173",
+//   credentials: true
+// }));
 
 export const instance = new Razorpay({
   key_id: process.env.RAZORPAY_API_KEY,
