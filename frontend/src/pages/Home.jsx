@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import productsData from '../data/products.json'
+import './Home.css';
 
 const Home = () => {
   const [displayProducts, setDisplayProducts] = useState([])

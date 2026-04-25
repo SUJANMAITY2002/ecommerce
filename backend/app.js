@@ -2,16 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import payment from './routes/productRoutes.js';
 import dotenv from 'dotenv';
-dotenv.config({path:"./.env"});
+
+dotenv.config({ path: "./.env" });
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // frontend vite server
+  origin: ["http://localhost:5173", "https://ecommercesujan.netlify.app"],
   credentials: true
 }));
 

@@ -10,8 +10,7 @@ export const useAuth = () => {
   return context
 }
 
-// ✅ Admin check function
-// In AuthContext.jsx, update this function:
+// Admin check function
 export const checkAdminStatus = (email) => {
   const adminEmails = ['admin@example.com', 'admin@test.com', 'sujan@admin.com']
   return adminEmails.includes(email.toLowerCase())
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080"
 
-  // ✅ checkAuth should run once when app loads
+  // FIX 1: On app load, restore user AND token from localStorage
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("loggedInUser") || "null")
     if (user) {
@@ -31,46 +30,46 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
-const signIn = useCallback(async (email, password) => {
-  setIsLoading(true)
-  try {
-    const response = await fetch(`${API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
+  const signIn = useCallback(async (email, password) => {
+    setIsLoading(true)
+    try {
+      // FIX 2: Corrected route from /login to /signin (matches AuthRouter.js)
+      const response = await fetch(`${API_URL}/api/auth/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-    const data = await response.json()
+      const data = await response.json()
 
-    if (data.success) {
-      // ✅ Admin check
-      const isAdmin = checkAdminStatus(email)
+      if (data.success) {
+        const isAdmin = checkAdminStatus(email)
 
-      const userData = { 
-        name: data.name, 
-        email: data.email,
-        isAdmin: isAdmin,
-        role: isAdmin ? 'admin' : 'user'
+        const userData = {
+          name: data.name,
+          email: data.email,
+          isAdmin: isAdmin,
+          role: isAdmin ? 'admin' : 'user'
+        }
+
+        // FIX 3: Store the JWT token so protected routes can send it
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('loggedInUser', JSON.stringify(userData))
+        setCurrentUser(userData)
+
+        window.dispatchEvent(new Event("userLoggedIn"))
+
+        return { success: true, message: data.message }
+      } else {
+        return { success: false, message: data.message }
       }
-
-      localStorage.setItem('loggedInUser', JSON.stringify(userData))
-      setCurrentUser(userData)
-
-      // ✅ Important: notify Header.jsx
-      window.dispatchEvent(new Event("userLoggedIn"))
-
-      return { success: true, message: data.message }
-    } else {
-      return { success: false, message: data.message }
+    } catch (error) {
+      console.error('Sign in error:', error)
+      return { success: false, message: 'Network error. Please try again.' }
+    } finally {
+      setIsLoading(false)
     }
-  } catch (error) {
-    console.error('Sign in error:', error)
-    return { success: false, message: 'Network error. Please try again.' }
-  } finally {
-    setIsLoading(false)
-  }
-}, [API_URL])
-
+  }, [API_URL])
 
   const signUp = useCallback(async (userData) => {
     setIsLoading(true)
@@ -103,21 +102,30 @@ const signIn = useCallback(async (email, password) => {
     }
   }, [signIn, API_URL])
 
+  // FIX 4: signOut now also removes the token from localStorage
   const signOut = useCallback(() => {
     localStorage.removeItem('loggedInUser')
+    localStorage.removeItem('token')
     setCurrentUser(null)
   }, [])
 
   const isLoggedIn = useCallback(() => {
     return !!currentUser
   }, [currentUser])
-  
+
   const checkAuth = useCallback(() => {
-    const user = JSON.parse(localStorage.getItem("loggedInUser") || "null");
+    const user = JSON.parse(localStorage.getItem("loggedInUser") || "null")
     if (user && user !== currentUser) {
-      setCurrentUser(user);
+      setCurrentUser(user)
     }
   }, [currentUser])
+
+  // FIX 5: Helper to get auth header — use this in every protected API call
+  // Usage: fetch(url, { headers: getAuthHeader() })
+  const getAuthHeader = useCallback(() => {
+    const token = localStorage.getItem('token')
+    return token ? { 'Authorization': `Bearer ${token}` } : {}
+  }, [])
 
   const value = {
     currentUser,
@@ -126,7 +134,8 @@ const signIn = useCallback(async (email, password) => {
     signUp,
     signOut,
     isLoggedIn,
-    checkAuth
+    checkAuth,
+    getAuthHeader,   // expose so any component can make authenticated requests
   }
 
   return (

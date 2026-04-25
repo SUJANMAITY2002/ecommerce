@@ -1,0 +1,328 @@
+/* ============================================
+   MyOrders.css
+   ============================================ */
+
+.orders-container {
+  padding: 5rem 0 8rem;
+  background: var(--light-2);
+  min-height: 80vh;
+}
+
+/* ---- Page Header ---- */
+.orders-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  padding: 5rem 3rem;
+  background: var(--grad-hero);
+  border-radius: var(--r-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.orders-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255,107,107,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.orders-header h1 {
+  font-family: var(--font-heading);
+  font-size: 4.4rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 1rem;
+  position: relative;
+  letter-spacing: -1px;
+}
+
+.orders-header p {
+  font-size: 1.7rem;
+  color: rgba(255,255,255,0.7);
+  position: relative;
+}
+
+/* ---- Filter Tabs ---- */
+.orders-filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 1rem 2.4rem;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--text-muted);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  transition: all var(--t-bounce);
+  text-transform: capitalize;
+  box-shadow: var(--shadow-xs);
+}
+
+.filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-btn.active {
+  background: var(--grad-primary);
+  color: var(--white);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---- Orders List ---- */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+/* ---- Order Card ---- */
+.order-card {
+  background: var(--white);
+  border-radius: var(--r-xl);
+  padding: 3.2rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  transition: transform var(--t-bounce), box-shadow var(--t-slow), border-color var(--t-base);
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.order-card[data-status="pending"]    { border-left-color: var(--warning); }
+.order-card[data-status="processing"] { border-left-color: var(--info); }
+.order-card[data-status="shipped"]    { border-left-color: var(--primary); }
+.order-card[data-status="delivered"]  { border-left-color: var(--success); }
+.order-card[data-status="cancelled"]  { border-left-color: var(--danger); }
+
+/* ---- Order Header ---- */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.4rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.order-id {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.order-date {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  color: var(--text-muted);
+}
+
+.order-status {
+  padding: 0.6rem 1.6rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  flex-shrink: 0;
+}
+
+.status-pending    { background: #fff3cd; color: #856404; }
+.status-processing { background: #cce5ff; color: #004085; }
+.status-shipped    { background: #e2d9f3; color: #4a235a; }
+.status-delivered  { background: #d4edda; color: #155724; }
+.status-cancelled  { background: #f8d7da; color: #721c24; }
+
+/* ---- Order Items ---- */
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 7rem 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.6rem;
+  background: var(--light);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  transition: background var(--t-fast);
+}
+
+.order-item:hover { background: rgba(92,107,192,0.04); }
+
+.item-image {
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  border-radius: var(--r-sm);
+  background: var(--white);
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+}
+
+.item-details { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.item-name {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.item-quantity {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  color: var(--text-muted);
+}
+
+.item-price {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--success);
+  white-space: nowrap;
+}
+
+/* ---- Order Summary Row ---- */
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1.6rem;
+}
+
+.order-total {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.order-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.8rem;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 600;
+  transition: all var(--t-bounce);
+  box-shadow: var(--shadow-xs);
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-track   { background: rgba(51,154,240,0.1); color: var(--info); border: 1.5px solid rgba(51,154,240,0.25); }
+.btn-details { background: rgba(107,114,128,0.1); color: var(--mid); border: 1.5px solid rgba(107,114,128,0.2); }
+.btn-reorder { background: rgba(32,201,151,0.1); color: var(--success); border: 1.5px solid rgba(32,201,151,0.25); }
+.btn-cancel  { background: rgba(240,62,62,0.08); color: var(--danger); border: 1.5px solid rgba(240,62,62,0.2); }
+
+.btn-track:hover   { background: var(--info); color: var(--white); border-color: transparent; }
+.btn-details:hover { background: var(--mid); color: var(--white); border-color: transparent; }
+.btn-reorder:hover { background: var(--success); color: var(--white); border-color: transparent; }
+.btn-cancel:hover  { background: var(--danger); color: var(--white); border-color: transparent; }
+
+/* ---- No Orders ---- */
+.no-orders {
+  text-align: center;
+  background: var(--white);
+  padding: 8rem 4rem;
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.no-orders i {
+  font-size: 7rem;
+  color: var(--border);
+  margin-bottom: 2.4rem;
+  display: block;
+}
+
+.no-orders h3 {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.no-orders p {
+  font-size: 1.6rem;
+  color: var(--text-muted);
+  margin-bottom: 3.2rem;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  background: var(--grad-primary);
+  color: var(--white) !important;
+  padding: 1.4rem 3.4rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  transition: transform var(--t-bounce), box-shadow var(--t-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.shop-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(92,107,192,0.25);
+  color: var(--white) !important;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .orders-header { padding: 4rem 2.4rem; border-radius: var(--r-lg); }
+  .orders-header h1 { font-size: 3.2rem; }
+  .order-card { padding: 2.4rem 2rem; }
+  .order-summary { flex-direction: column; align-items: flex-start; }
+  .order-actions { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .order-item { grid-template-columns: 5.5rem 1fr; }
+  .item-price { grid-column: 1 / -1; }
+  .filter-btn { padding: 0.9rem 1.6rem; font-size: 1.3rem; }
+  .action-btn { font-size: 1.25rem; padding: 0.8rem 1.4rem; }
+}

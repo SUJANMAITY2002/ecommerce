@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { showNotification } from '../components/Notification'
+import './Contact.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({

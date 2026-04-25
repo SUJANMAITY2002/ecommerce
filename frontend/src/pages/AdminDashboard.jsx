@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAdmin } from '../context/AdminContext'
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const { stats, orders, products } = useAdmin()

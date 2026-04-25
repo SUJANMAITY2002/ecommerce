@@ -1,0 +1,297 @@
+/* ============================================
+   AddressForm.css
+   ============================================ */
+
+.address-form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 35, 0.6);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.2s var(--ease) both;
+}
+
+.address-form-container {
+  background: var(--white);
+  border-radius: var(--r-xl);
+  padding: 4rem;
+  max-width: 80rem;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.35s var(--ease-bounce) both;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.address-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3.6rem;
+  padding-bottom: 2.4rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.address-form-header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.close-btn {
+  width: 4rem;
+  height: 4rem;
+  background: var(--light);
+  border: none;
+  border-radius: 50%;
+  font-size: 2.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-base);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background: var(--danger);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.saved-addresses h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+.address-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.8rem;
+  padding: 2.4rem;
+  border: 2px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 1.6rem;
+  cursor: pointer;
+  transition: all var(--t-bounce);
+  background: var(--white);
+}
+
+.address-card:hover {
+  border-color: var(--primary);
+  background: rgba(92,107,192,0.03);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.address-card.selected {
+  border-color: var(--primary);
+  background: rgba(92,107,192,0.05);
+  box-shadow: var(--shadow-sm), 0 0 0 1px rgba(92,107,192,0.2);
+}
+
+.address-radio input[type="radio"] {
+  width: 2rem;
+  height: 2rem;
+  accent-color: var(--primary);
+  margin-top: 0.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.address-details { flex: 1; }
+
+.address-name {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.address-details p {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.3rem;
+}
+
+.btn-remove {
+  background: rgba(240,62,62,0.08);
+  color: var(--danger);
+  border: 1.5px solid rgba(240,62,62,0.2);
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-base);
+  flex-shrink: 0;
+}
+
+.btn-remove:hover {
+  background: var(--danger);
+  color: var(--white);
+  border-color: var(--danger);
+}
+
+.new-address-label {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 1.4rem 0;
+  transition: color var(--t-base);
+  border-top: 1px dashed var(--border);
+  margin-top: 1rem;
+}
+
+.new-address-label:hover { color: var(--primary-dark); }
+
+.new-address-label input[type="radio"] {
+  width: 1.8rem;
+  height: 1.8rem;
+  accent-color: var(--primary);
+}
+
+.address-form {
+  margin-top: 3.2rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.address-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.address-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.address-form .form-group label {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+}
+
+.address-form .form-group input,
+.address-form .form-group select,
+.address-form .form-group textarea {
+  width: 100%;
+  padding: 1.4rem 1.8rem;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  color: var(--text);
+  background: var(--light);
+  transition: border-color var(--t-base), box-shadow var(--t-base), background var(--t-base);
+  outline: none;
+}
+
+.address-form .form-group input:focus,
+.address-form .form-group select:focus,
+.address-form .form-group textarea:focus {
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(92,107,192,0.1);
+}
+
+.address-form .form-group input.error { border-color: var(--danger); }
+
+.error-text {
+  color: var(--danger);
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  margin-top: 3.6rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--text-muted);
+  border: 2px solid var(--border);
+  padding: 1.4rem 3rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-base);
+}
+
+.btn-cancel:hover {
+  background: var(--light);
+  color: var(--text);
+  border-color: var(--mid);
+}
+
+.btn-proceed {
+  background: var(--grad-primary);
+  color: var(--white);
+  border: none;
+  padding: 1.4rem 3.4rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--t-bounce), box-shadow var(--t-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-proceed:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(92,107,192,0.3);
+}
+
+.btn-proceed:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .address-form-container { padding: 3rem 2.4rem; max-height: 88vh; }
+  .address-form .form-row { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; }
+  .btn-cancel, .btn-proceed { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .address-form-container { padding: 2.4rem 1.8rem; }
+  .address-form-header h2 { font-size: 2.2rem; }
+}

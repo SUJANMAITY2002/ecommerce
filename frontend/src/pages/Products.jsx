@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import productsData from '../data/products.json'
+import './Products.css';
 
 const Products = () => {
   const [products, setProducts] = useState([])

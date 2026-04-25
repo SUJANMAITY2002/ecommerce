@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import productsData from '../data/products.json'
+import './CategoryPage.css';
 
 const CategoryPage = () => {
   const { categoryName } = useParams()

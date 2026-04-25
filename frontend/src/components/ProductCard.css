@@ -1,0 +1,95 @@
+/* ============================================
+   ProductCard.css
+   Overrides / extensions on top of index.css cards
+   ============================================ */
+
+/* The cards are mostly defined in index.css
+   Here we add extra flair specific to product cards */
+
+.cards .information {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Sheen on hover */
+.cards::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s var(--ease);
+  pointer-events: none;
+}
+
+.cards:hover::after {
+  left: 120%;
+}
+
+.productRating {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.productRating i {
+  color: var(--warning);
+  font-size: 1.2rem;
+}
+
+.productPriceElement {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.productPrice {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.productActualPrice {
+  font-size: 1.5rem;
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+
+.productStockElement {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.6rem 0;
+}
+
+.productProperty {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.productStock {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.productQuantityElement {
+  margin: 1.2rem 0 0.8rem;
+}
+
+.productQuantityElement .productProperty {
+  margin-bottom: 0.8rem;
+}

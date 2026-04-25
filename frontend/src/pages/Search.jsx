@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import productsData from '../data/products.json'
+import './Search.css';
 
 const Search = () => {
   const [searchParams] = useSearchParams()

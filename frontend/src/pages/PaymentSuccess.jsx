@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import './PaymentSuccess.css';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams()

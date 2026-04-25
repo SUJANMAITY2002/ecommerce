@@ -1,0 +1,369 @@
+/* ============================================
+   PaymentSuccess.css
+   ============================================ */
+
+.payment-success-container {
+  min-height: 100vh;
+  background: var(--grad-hero);
+  padding: 5rem 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-success-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(32,201,151,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 20%, rgba(255,107,107,0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.payment-success-container .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Success Card ---- */
+.success-content {
+  background: var(--white);
+  border-radius: var(--r-xl);
+  padding: 6rem 5rem;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  max-width: 82rem;
+  margin: 0 auto;
+  animation: slideUp 0.6s var(--ease-bounce) both;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ---- Success Icon ---- */
+.success-icon {
+  width: 10rem;
+  height: 10rem;
+  background: var(--grad-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 3.2rem;
+  animation: scaleUp 0.5s var(--ease-bounce) 0.2s both;
+  box-shadow: 0 0 0 0 rgba(32,201,151,0.4);
+  animation: scaleUp 0.5s var(--ease-bounce) 0.2s both, pulse 2.5s ease 0.7s 3;
+}
+
+.success-icon i {
+  font-size: 4.8rem;
+  color: var(--white);
+}
+
+/* ---- Text ---- */
+.success-content h1 {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--success);
+  margin-bottom: 1.6rem;
+  letter-spacing: -1px;
+}
+
+.success-message {
+  font-size: 1.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4rem;
+  line-height: 1.7;
+  max-width: 55rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- Order Summary Card ---- */
+.order-summary-card {
+  background: var(--light);
+  border-radius: var(--r-lg);
+  padding: 3.6rem;
+  margin: 0 0 4rem;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+
+.order-summary-card h2 {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2.4rem;
+  text-align: center;
+  letter-spacing: -0.3px;
+}
+
+/* Info rows */
+.order-info { margin-bottom: 3.2rem; }
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-row span {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+.info-row strong {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Status badge in success page */
+.status-badge {
+  padding: 0.5rem 1.4rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.processing {
+  background: #cce5ff;
+  color: #004085;
+}
+
+/* ---- Items List ---- */
+.ordered-items { margin: 3.2rem 0; }
+
+.ordered-items h3 {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.item-summary {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.6rem;
+  background: var(--white);
+  border-radius: var(--r-md);
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--border);
+  transition: transform var(--t-base), box-shadow var(--t-base);
+}
+
+.item-summary:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.item-summary img {
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  border-radius: var(--r-sm);
+  background: var(--light);
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.item-summary .item-details { flex: 1; }
+
+.item-summary .item-details h4 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.item-summary .item-details p {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.item-summary .item-price {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--success);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ---- Shipping Info ---- */
+.shipping-info { margin-top: 3.2rem; }
+
+.shipping-info h3 {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.address-details {
+  background: var(--white);
+  padding: 2.4rem;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--border);
+}
+
+.address-details p {
+  font-family: var(--font-body);
+  font-size: 1.45rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 0.4rem;
+}
+
+.address-details p strong {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---- CTA Actions ---- */
+.success-actions {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 0 0 3.2rem;
+  flex-wrap: wrap;
+}
+
+.success-actions .btn {
+  padding: 1.5rem 3.4rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: var(--r-full);
+}
+
+.success-actions .btn-primary {
+  background: var(--grad-primary);
+  color: var(--white) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.success-actions .btn-secondary {
+  background: transparent;
+  color: var(--primary) !important;
+  border: 2px solid var(--primary);
+}
+
+.success-actions .btn-secondary:hover {
+  background: var(--primary);
+  color: var(--white) !important;
+}
+
+/* ---- Notification Info Bar ---- */
+.notification-info {
+  background: rgba(51,154,240,0.08);
+  border: 1px solid rgba(51,154,240,0.25);
+  border-radius: var(--r-md);
+  padding: 2rem 2.4rem;
+}
+
+.notification-info p {
+  font-family: var(--font-body);
+  color: var(--info);
+  font-size: 1.45rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.notification-info i { font-size: 2rem; }
+
+/* ---- Loading / Error ---- */
+.loading {
+  text-align: center;
+  padding: 5rem 3rem;
+}
+
+.loading i {
+  font-size: 5rem;
+  color: var(--primary);
+  margin-bottom: 2.4rem;
+  display: block;
+  animation: spin 1s linear infinite;
+}
+
+.loading p {
+  font-family: var(--font-body);
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.loading small {
+  font-size: 1.35rem;
+  color: var(--text-light);
+}
+
+.error-message {
+  text-align: center;
+  padding: 4rem 3rem;
+}
+
+.error-message i {
+  font-size: 6rem;
+  color: var(--warning);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.error-message h2 {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.error-message p {
+  font-size: 1.6rem;
+  color: var(--text-muted);
+  margin-bottom: 3.2rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .success-content { padding: 4rem 3rem; }
+  .success-content h1 { font-size: 3.2rem; }
+  .order-summary-card { padding: 2.4rem 2rem; }
+  .success-actions { flex-direction: column; align-items: center; }
+  .success-actions .btn { width: 100%; max-width: 36rem; }
+}
+
+@media (max-width: 480px) {
+  .success-content { padding: 3rem 2rem; }
+  .success-icon { width: 8rem; height: 8rem; }
+  .success-icon i { font-size: 3.6rem; }
+  .success-content h1 { font-size: 2.8rem; }
+  .item-summary { flex-wrap: wrap; }
+  .item-summary .item-price { margin-left: 0; }
+}

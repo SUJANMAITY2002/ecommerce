@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { showNotification } from '../components/Notification'
+import './MyOrders.css';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([])

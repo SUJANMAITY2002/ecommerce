@@ -1,0 +1,121 @@
+/* ============================================
+   CategoryPage.css
+   ============================================ */
+
+.section-products {
+  padding: 8rem 0;
+  background: var(--light-2);
+  min-height: 80vh;
+}
+
+.section-products > .container > div:first-child {
+  margin-bottom: 0;
+}
+
+.category-results-count {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  margin-top: 0.8rem;
+  font-weight: 400;
+}
+
+/* Category heading with breadcrumb feel */
+.section-common--heading {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+/* No results state */
+.no-results {
+  text-align: center;
+  padding: 6rem 4rem;
+  background: var(--white);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  grid-column: 1 / -1;
+}
+
+.no-results h3 {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.no-results p {
+  font-size: 1.6rem;
+  color: var(--text-muted);
+  margin-bottom: 3.2rem;
+}
+
+.category-suggestions {
+  background: var(--light);
+  border-radius: var(--r-lg);
+  padding: 2.4rem;
+  margin-top: 2.4rem;
+  display: inline-block;
+  text-align: left;
+  min-width: 30rem;
+}
+
+.category-suggestions h4 {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  color: var(--text);
+  margin-bottom: 1.6rem;
+}
+
+.category-suggestions ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.category-suggestions ul li {
+  background: var(--white);
+  color: var(--primary);
+  padding: 0.8rem 2rem;
+  border-radius: var(--r-full);
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: 2px solid rgba(92,107,192,0.15);
+  cursor: pointer;
+  transition: all var(--t-base);
+  box-shadow: var(--shadow-xs);
+}
+
+.category-suggestions ul li:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Loading */
+.loading-container {
+  text-align: center;
+  padding: 10rem 4rem;
+}
+
+.loading-container h2 {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  color: var(--primary);
+  animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+  .section-common--heading { font-size: 3.2rem; }
+  .no-results { padding: 4rem 2rem; }
+  .category-suggestions { min-width: auto; width: 100%; }
+}

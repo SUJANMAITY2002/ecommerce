@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { showNotification } from '../components/Notification'
 //import AddressForm from '../components/AddressForm.jsx'
+import './Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, getCartTotal } = useCart()
