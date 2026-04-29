@@ -58,7 +58,7 @@ function App() {
             <Route path="/category/:categoryName" element={<CategoryPage />} />
             <Route path="/paymentSuccess" element={<PaymentSuccess />} />
             <Route path="/addressForm" element={<AddressForm />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             <Route
               path="/admin"
               element={
