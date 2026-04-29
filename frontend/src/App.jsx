@@ -19,7 +19,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import CategoryPage from "./pages/CategoryPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
-import ForgotPassword from "./pages/ForgotPassword";
+// import ForgotPassword from "./pages/ForgotPassword";
 
 // Pages (Admin side)
 import AdminDashboard from "./pages/AdminDashboard";
