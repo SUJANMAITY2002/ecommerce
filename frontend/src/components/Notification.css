@@ -1,53 +1,30 @@
-/* ============================================
-   Notification.css
-   ============================================ */
+/* Notification.css */
 
 .global-notification {
   position: fixed;
-  top: 2.4rem;
-  right: 2.4rem;
+  top: 2rem;
+  right: 2rem;
   background: var(--white);
-  padding: 1.6rem 2rem;
+  padding: 1.4rem 1.8rem;
   border-radius: var(--r-md);
-  box-shadow: var(--shadow-xl);
-  z-index: 99999;
-  max-width: 42rem;
-  min-width: 28rem;
-  animation: notifEnter 0.35s var(--ease-bounce) both;
+  box-shadow: var(--shadow-md);
+  z-index: 9999;
+  max-width: 40rem;
+  min-width: 26rem;
   border: 1px solid var(--border);
-  overflow: hidden;
+  border-left: 4px solid var(--primary);
 }
 
-.global-notification::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  border-radius: var(--r-full);
-}
-
-.notification-success::before { background: var(--success); }
-.notification-error::before   { background: var(--danger); }
-.notification-info::before    { background: var(--info); }
-.notification-warning::before { background: var(--warning); }
-
-@keyframes notifEnter {
-  from {
-    opacity: 0;
-    transform: translateX(100%) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
+.notification-success { border-left-color: var(--success); }
+.notification-error   { border-left-color: var(--danger); }
+.notification-info    { border-left-color: var(--info); }
+.notification-warning { border-left-color: var(--warning); }
 
 .notification-content {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.6rem;
-  padding-left: 0.4rem;
+  gap: 1.4rem;
 }
 
 .notification-message {
@@ -67,21 +44,18 @@
   padding: 0;
   flex-shrink: 0;
   line-height: 1;
-  transition: color var(--t-fast), transform var(--t-fast);
-  margin-top: 0.2rem;
+  transition: color var(--t-base);
+  margin-top: 0.1rem;
 }
 
-.notification-close:hover {
-  color: var(--text);
-  transform: scale(1.2);
-}
+.notification-close:hover { color: var(--text); }
 
 @media (max-width: 480px) {
   .global-notification {
     top: auto;
     bottom: 2rem;
-    right: 1.6rem;
-    left: 1.6rem;
+    right: 1.4rem;
+    left: 1.4rem;
     max-width: none;
   }
 }

@@ -1,12 +1,5 @@
-/* ============================================
-   AdminRoute.css
-   This component renders nothing visible —
-   it only guards routes. No styles needed.
-   Any loading/unauthorized states use
-   global utility classes from index.css.
-   ============================================ */
+/* AdminRoute.css */
 
-/* Unauthorized redirect flash prevention */
 .admin-route-loading {
   display: flex;
   align-items: center;
@@ -16,7 +9,6 @@
 }
 
 .admin-route-loading i {
-  font-size: 4rem;
+  font-size: 3.6rem;
   color: var(--primary);
-  animation: spin 1s linear infinite;
 }
