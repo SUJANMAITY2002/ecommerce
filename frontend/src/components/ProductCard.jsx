@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
-import { showNotification } from './Notification'
+// import { showNotification } from './Notification'
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
