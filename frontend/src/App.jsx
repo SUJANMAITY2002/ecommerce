@@ -4,7 +4,7 @@ import { useEffect } from "react";
 // Components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Notification from "./components/Notification";
+// import Notification from "./components/Notification";
 import AddressForm from "./components/AddressForm.jsx";
 import AdminRoute from "./components/AdminRoute";
 
