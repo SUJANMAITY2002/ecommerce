@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-// import { showNotification } from '../components/Notification'
 import './auth-shared.css'
 
 export default function SignUp() {
@@ -17,6 +16,7 @@ export default function SignUp() {
   const [errors, setErrors] = useState({})
   const [showPwd, setShowPwd] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const validate = () => {
     const errs = {}
@@ -33,8 +33,8 @@ export default function SignUp() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
-    // clear error on change
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
+    if (serverError) setServerError('')
   }
 
   const handleSubmit = async (e) => {
@@ -47,10 +47,9 @@ export default function SignUp() {
 
     const result = await signUp({ name: form.name, email: form.email, password: form.password })
     if (result.success) {
-      showNotification('Account created successfully!', 'success')
       navigate('/')
     } else {
-      showNotification(result.message || 'Sign up failed', 'error')
+      setServerError(result.message || 'Sign up failed')
     }
   }
 
@@ -70,6 +69,10 @@ export default function SignUp() {
 
         <h1 className="auth-title">Create your account</h1>
         <p className="auth-subtitle">Join us and start shopping today</p>
+
+        {serverError && (
+          <div className="auth-server-error">{serverError}</div>
+        )}
 
         <form onSubmit={handleSubmit} noValidate className="auth-form">
           <div className="auth-form-grid">

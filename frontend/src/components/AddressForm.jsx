@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { useNavigate, useLocation } from 'react-router-dom'
-// import { showNotification } from './Notification'
 import './AddressForm.css';
 
 

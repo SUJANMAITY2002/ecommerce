@@ -4,8 +4,6 @@ import { useEffect } from "react";
 // Components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// q!
-// wimport Notification from "./components/Notification";
 import AddressForm from "./components/AddressForm.jsx";
 import AdminRoute from "./components/AdminRoute";
 
@@ -20,7 +18,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import CategoryPage from "./pages/CategoryPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
-// import ForgotPassword from "./pages/ForgotPassword";
 
 // Pages (Admin side)
 import AdminDashboard from "./pages/AdminDashboard";
@@ -30,7 +27,7 @@ import AdminOrders from "./pages/AdminOrders";
 // Contexts
 import { useCart } from "./context/CartContext";
 import { useAuth } from "./context/AuthContext";
-import { AdminProvider } from "./context/AdminContext"; 
+import { AdminProvider } from "./context/AdminContext";
 
 function App() {
   const { cartCount } = useCart();
@@ -44,7 +41,6 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Notification />
       <main>
         <AdminProvider>
           <Routes>
@@ -59,31 +55,10 @@ function App() {
             <Route path="/category/:categoryName" element={<CategoryPage />} />
             <Route path="/paymentSuccess" element={<PaymentSuccess />} />
             <Route path="/addressForm" element={<AddressForm />} />
-            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <AdminDashboard />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/products"
-              element={
-                <AdminRoute>
-                  <AdminProducts />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/orders"
-              element={
-                <AdminRoute>
-                  <AdminOrders />
-                </AdminRoute>
-              }
-            />
+
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
+            <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
           </Routes>
         </AdminProvider>
       </main>

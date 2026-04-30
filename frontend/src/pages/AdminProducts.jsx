@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useAdmin } from '../context/AdminContext'
-// import { showNotification } from '../components/Notification'
 import './AdminProducts.css';
 
 const AdminProducts = () => {

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-// import { showNotification } from '../components/Notification'
 import './auth-shared.css'
 
 export default function SignIn() {
@@ -11,6 +10,7 @@ export default function SignIn() {
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [showPwd, setShowPwd] = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const validate = () => {
     const errs = {}
@@ -24,6 +24,7 @@ export default function SignIn() {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
+    if (serverError) setServerError('')
   }
 
   const handleSubmit = async (e) => {
@@ -36,10 +37,9 @@ export default function SignIn() {
 
     const result = await signIn(form.email, form.password)
     if (result.success) {
-      showNotification('Welcome back!', 'success')
       navigate('/')
     } else {
-      showNotification(result.message || 'Login failed', 'error')
+      setServerError(result.message || 'Login failed')
     }
   }
 
@@ -59,6 +59,10 @@ export default function SignIn() {
 
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-subtitle">Sign in to your account to continue</p>
+
+        {serverError && (
+          <div className="auth-server-error">{serverError}</div>
+        )}
 
         <form onSubmit={handleSubmit} noValidate className="auth-form">
 
@@ -84,10 +88,7 @@ export default function SignIn() {
 
           {/* Password */}
           <div className={`auth-field ${errors.password ? 'auth-field--error' : ''}`}>
-            <div className="auth-label-row">
-              <label htmlFor="si-password" className="auth-label">Password</label>
-              <Link to="/forgot-password" className="auth-forgot-link">Forgot password?</Link>
-            </div>
+            <label htmlFor="si-password" className="auth-label">Password</label>
             <div className="auth-input-wrap">
               <span className="auth-input-icon">
                 <svg viewBox="0 0 20 20" fill="none">
