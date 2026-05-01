@@ -1,5 +1,5 @@
 import { useState } from 'react'
-// import { showNotification } from '../components/Notification'
+import { showNotification } from '../components/Notification'
 import './Contact.css';
 
 const Contact = () => {
