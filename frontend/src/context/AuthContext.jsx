@@ -8,15 +8,10 @@ export const useAuth = () => {
   return context
 }
 
-// ─── Add your admin email(s) here ───────────────────────────
-// When a user signs in with one of these emails they get admin access.
-// You can add your own email to this list.
 const ADMIN_EMAILS = [
   'admin@example.com',
   'admin@test.com',
   'sujan@admin.com',
-  // 👇 Add your own email here to get admin access
-  // 'youremail@gmail.com',
 ]
 
 const isAdminEmail = (email) =>
@@ -26,9 +21,11 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+  // ✅ FIXED: Points directly to your Render backend URL
+  // In production (Netlify), this uses the Render URL.
+  // Locally, Vite proxy forwards /api to localhost:8080.
+  const API_URL = import.meta.env.VITE_API_URL || 'https://ecommerce-0tq5.onrender.com'
 
-  // Restore user from localStorage on app load
   useEffect(() => {
     try {
       const saved = localStorage.getItem('loggedInUser')
@@ -46,11 +43,17 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
+
+      // ✅ FIXED: Handle non-JSON error responses from server gracefully
+      const contentType = res.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        return { success: false, message: 'Server error. Please try again later.' }
+      }
+
       const data = await res.json()
 
       if (data.success) {
         const adminStatus = isAdminEmail(email)
-
         const userData = {
           id: data._id || data.id || email,
           name: data.name,
@@ -58,16 +61,15 @@ export const AuthProvider = ({ children }) => {
           isAdmin: adminStatus,
           role: adminStatus ? 'admin' : 'user',
         }
-
         localStorage.setItem('token', data.token)
         localStorage.setItem('loggedInUser', JSON.stringify(userData))
         setCurrentUser(userData)
-
         return { success: true, message: data.message }
       }
 
       return { success: false, message: data.message || 'Login failed' }
-    } catch {
+    } catch (err) {
+      console.error('SignIn error:', err)
       return { success: false, message: 'Network error. Please try again.' }
     } finally {
       setIsLoading(false)
@@ -82,15 +84,22 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       })
+
+      // ✅ FIXED: Handle non-JSON error responses
+      const contentType = res.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        return { success: false, message: 'Server error. Please try again later.' }
+      }
+
       const data = await res.json()
 
       if (data.success) {
-        // Auto sign in right after signup
         return await signIn(email, password)
       }
 
       return { success: false, message: data.message || 'Sign up failed' }
-    } catch {
+    } catch (err) {
+      console.error('SignUp error:', err)
       return { success: false, message: 'Network error. Please try again.' }
     } finally {
       setIsLoading(false)

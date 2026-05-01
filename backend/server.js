@@ -1,8 +1,6 @@
 import app from './app.js';
 import dotenv from 'dotenv';
 import Razorpay from 'razorpay';
-import AuthRouter from './routes/AuthRouter.js';
-import './Models/db.js';
 
 dotenv.config({ path: "./.env" });
 
@@ -13,8 +11,8 @@ export const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
-app.use('/api/auth', AuthRouter);
-
+// ✅ FIXED: Removed AuthRouter and db import from here
+// Both are now handled in app.js so they load correctly on Render
 app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
