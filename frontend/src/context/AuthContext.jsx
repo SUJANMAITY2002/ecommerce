@@ -21,9 +21,8 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // ✅ FIXED: Points directly to your Render backend URL
-  // In production (Netlify), this uses the Render URL.
-  // Locally, Vite proxy forwards /api to localhost:8080.
+  // ✅ FIX: Use Render URL as default for production.
+  // Set VITE_API_URL in your Netlify environment variables to override.
   const API_URL = import.meta.env.VITE_API_URL || 'https://ecommerce-0tq5.onrender.com'
 
   useEffect(() => {
@@ -44,14 +43,13 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       })
 
-      // ✅ FIXED: Handle non-JSON error responses from server gracefully
-      const contentType = res.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        return { success: false, message: 'Server error. Please try again later.' }
+      // ✅ FIX: Guard against HTML error pages (500/404 return HTML, not JSON)
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        return { success: false, message: `Server error (${res.status}). Please try again later.` }
       }
 
       const data = await res.json()
-
       if (data.success) {
         const adminStatus = isAdminEmail(email)
         const userData = {
@@ -66,7 +64,6 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(userData)
         return { success: true, message: data.message }
       }
-
       return { success: false, message: data.message || 'Login failed' }
     } catch (err) {
       console.error('SignIn error:', err)
@@ -85,18 +82,16 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ name, email, password }),
       })
 
-      // ✅ FIXED: Handle non-JSON error responses
-      const contentType = res.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        return { success: false, message: 'Server error. Please try again later.' }
+      // ✅ FIX: Guard against HTML error pages
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        return { success: false, message: `Server error (${res.status}). Please try again later.` }
       }
 
       const data = await res.json()
-
       if (data.success) {
         return await signIn(email, password)
       }
-
       return { success: false, message: data.message || 'Sign up failed' }
     } catch (err) {
       console.error('SignUp error:', err)

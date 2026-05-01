@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
-import './MyOrders.css';
+import './MyOrders.css'
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([])
@@ -14,13 +14,15 @@ const MyOrders = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    // ✅ FIX 1: If not logged in, redirect to signin instead of crashing
     if (!isLoggedIn()) {
-      showNotification('Please login to view your orders', 'error')
       navigate('/signin')
       return
     }
     loadOrders()
-  }, [currentUser, isLoggedIn, navigate])
+  }, [currentUser]) // ✅ FIX 2: Only depend on currentUser, not isLoggedIn (function ref)
+  //    When user logs out, currentUser becomes null → useEffect re-runs → redirects to /signin
+  //    This also fixes the blank screen after logout on this page
 
   const loadOrders = () => {
     setIsLoading(true)
@@ -28,10 +30,7 @@ const MyOrders = () => {
     const userOrders = allOrders.filter(
       order => order.userId === currentUser?.id || order.userEmail === currentUser?.email
     )
-    
-    // Sort by creation date (newest first)
     userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    
     setOrders(userOrders)
     setFilteredOrders(userOrders)
     setIsLoading(false)
@@ -47,14 +46,14 @@ const MyOrders = () => {
   }
 
   const trackOrder = (orderId) => {
-    showNotification(`Tracking order ${orderId}. You will receive tracking information via email.`, 'info')
+    alert(`Tracking order ${orderId}. You will receive tracking info via email.`)
   }
 
   const viewOrderDetails = (orderId) => {
     const order = orders.find(o => o.id === orderId)
     if (order) {
       const itemsList = order.items.map(item => `${item.name} (Qty: ${item.quantity})`).join(', ')
-      showNotification(`Order Details:\nOrder ID: ${order.id}\nStatus: ${order.status}\nTotal: $${order.total.toFixed(2)}\nItems: ${itemsList}`, 'info')
+      alert(`Order ID: ${order.id}\nStatus: ${order.status}\nTotal: ₹${order.total.toFixed(2)}\nItems: ${itemsList}`)
     }
   }
 
@@ -66,9 +65,8 @@ const MyOrders = () => {
         const result = addToCart({ ...item })
         if (result.success) itemsAdded++
       })
-      
       if (itemsAdded > 0) {
-        showNotification(`${itemsAdded} item${itemsAdded !== 1 ? 's' : ''} added to your cart!`, 'success')
+        alert(`${itemsAdded} item${itemsAdded !== 1 ? 's' : ''} added to your cart!`)
       }
     }
   }
@@ -80,24 +78,19 @@ const MyOrders = () => {
       if (orderIndex !== -1) {
         allOrders[orderIndex].status = 'cancelled'
         localStorage.setItem('userOrders', JSON.stringify(allOrders))
-        showNotification('Order has been cancelled successfully.', 'success')
         loadOrders()
       }
     }
   }
 
-  const getStatusClass = (status) => {
-    return `status-${status.toLowerCase()}`
-  }
+  const getStatusClass = (status) => `status-${status.toLowerCase()}`
+  const canCancel = (order) => order.status === 'pending' || order.status === 'processing'
 
-  const canCancel = (order) => {
-    return order.status === 'pending' || order.status === 'processing'
-  }
-
+  // ✅ FIX 3: Show loading until we know auth state
   if (isLoading) {
     return (
       <main className="orders-container">
-        <div className="loading-container">
+        <div className="loading-container" style={{ textAlign: 'center', padding: '6rem' }}>
           <p>Loading your orders...</p>
         </div>
       </main>
@@ -152,9 +145,7 @@ const MyOrders = () => {
               <div className="order-header">
                 <div>
                   <div className="order-id">Order #{order.id}</div>
-                  <div className="order-date">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </div>
+                  <div className="order-date">{new Date(order.createdAt).toLocaleDateString()}</div>
                 </div>
                 <span className={`order-status ${getStatusClass(order.status)}`}>
                   {order.status}
@@ -164,50 +155,32 @@ const MyOrders = () => {
               <div className="order-items">
                 {order.items.map(item => (
                   <div key={`${order.id}-${item.id}`} className="order-item">
-                    <img 
-                      src={item.image || '/images/placeholder.jpg'} 
-                      alt={item.name} 
-                      className="item-image"
-                    />
+                    <img src={item.image || '/images/placeholder.jpg'} alt={item.name} className="item-image" />
                     <div className="item-details">
                       <div className="item-name">{item.name}</div>
                       <div className="item-quantity">Qty: {item.quantity}</div>
                     </div>
-                    <div className="item-price">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </div>
+                    <div className="item-price">₹{(item.price * item.quantity).toFixed(2)}</div>
                   </div>
                 ))}
               </div>
 
               <div className="order-summary">
-                <div className="order-total">Total: ${order.total.toFixed(2)}</div>
+                <div className="order-total">Total: ₹{order.total.toFixed(2)}</div>
                 <div className="order-actions">
                   {order.status !== 'cancelled' && (
-                    <button 
-                      className="action-btn btn-track"
-                      onClick={() => trackOrder(order.id)}
-                    >
+                    <button className="action-btn btn-track" onClick={() => trackOrder(order.id)}>
                       <i className="fa-solid fa-truck"></i> Track
                     </button>
                   )}
-                  <button 
-                    className="action-btn btn-details"
-                    onClick={() => viewOrderDetails(order.id)}
-                  >
+                  <button className="action-btn btn-details" onClick={() => viewOrderDetails(order.id)}>
                     <i className="fa-solid fa-eye"></i> Details
                   </button>
-                  <button 
-                    className="action-btn btn-reorder"
-                    onClick={() => reorder(order.id)}
-                  >
+                  <button className="action-btn btn-reorder" onClick={() => reorder(order.id)}>
                     <i className="fa-solid fa-repeat"></i> Reorder
                   </button>
                   {canCancel(order) && (
-                    <button 
-                      className="action-btn btn-cancel"
-                      onClick={() => cancelOrder(order.id)}
-                    >
+                    <button className="action-btn btn-cancel" onClick={() => cancelOrder(order.id)}>
                       <i className="fa-solid fa-times"></i> Cancel
                     </button>
                   )}
