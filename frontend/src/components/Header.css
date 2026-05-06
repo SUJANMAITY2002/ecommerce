@@ -131,12 +131,12 @@
 .search-box input {
   border: none;
   outline: none;
-  padding: 1rem 1.6rem;
+  padding: 1.2rem 1.8rem;
   font-family: var(--font-body);
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   background: transparent;
   color: var(--text);
-  width: 22rem;
+  width: 48rem;   /* Increased width */
 }
 
 .search-box input::placeholder { color: var(--text-light); }

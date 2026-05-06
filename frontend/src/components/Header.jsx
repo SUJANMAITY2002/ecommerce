@@ -71,7 +71,7 @@ const Header = () => {
             <img
               src="/images/logoooo.png"
               alt="Sujan eCommerce"
-              style={{ width: '80%', height: 'auto' }}
+              style={{ width: '12%', height: 'auto' }}
             />
           </Link>
         </div>
