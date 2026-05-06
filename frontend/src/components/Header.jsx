@@ -69,7 +69,7 @@ const Header = () => {
         <div className="navbar-brand">
           <Link to="/">
             <img
-              src="/images/log.svg"
+              src="/images/logoooo.png"
               alt="Sujan eCommerce"
               style={{ width: '80%', height: 'auto' }}
             />
