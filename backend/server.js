@@ -6,13 +6,16 @@ dotenv.config({ path: "./.env" });
 
 const port = process.env.PORT || 3000;
 
+// ✅ FIX: Warn clearly if Razorpay keys are missing
+if (!process.env.RAZORPAY_API_KEY || !process.env.RAZORPAY_API_SECRET) {
+    console.warn('WARNING: RAZORPAY_API_KEY or RAZORPAY_API_SECRET is not set. Payments will fail.');
+}
+
 export const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
-  key_secret: process.env.RAZORPAY_API_SECRET,
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
-// ✅ FIXED: Removed AuthRouter and db import from here
-// Both are now handled in app.js so they load correctly on Render
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });

@@ -21,10 +21,11 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // ✅ FIX: Use Render URL as default for production.
-  // Set VITE_API_URL in your Netlify environment variables to override.
-  const API_URL = import.meta.env.VITE_API_URL || 'https://ecommerce-0tq5.onrender.com'
+  // ✅ Set VITE_API_URL in Netlify: Site settings → Environment variables
+  //    Value: https://ecommerce-0tq5.onrender.com  (no trailing slash)
+  const API_URL = (import.meta.env.VITE_API_URL || 'https://ecommerce-0tq5.onrender.com').replace(/\/$/, '')
 
+  // Restore session from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('loggedInUser')
@@ -43,9 +44,13 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       })
 
-      // ✅ FIX: Guard against HTML error pages (500/404 return HTML, not JSON)
+      // Guard against HTML error pages (Render cold-start or 500 returns HTML, not JSON)
       const contentType = res.headers.get('content-type') || ''
       if (!contentType.includes('application/json')) {
+        // ✅ FIX: Give a clearer message when the server is waking up (Render free tier)
+        if (res.status === 503 || res.status === 502) {
+          return { success: false, message: 'Server is starting up, please wait 30 seconds and try again.' }
+        }
         return { success: false, message: `Server error (${res.status}). Please try again later.` }
       }
 
@@ -53,6 +58,7 @@ export const AuthProvider = ({ children }) => {
       if (data.success) {
         const adminStatus = isAdminEmail(email)
         const userData = {
+          // ✅ FIX: Backend now sends _id correctly; this line now works as intended
           id: data._id || data.id || email,
           name: data.name,
           email: data.email || email,
@@ -67,7 +73,11 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: data.message || 'Login failed' }
     } catch (err) {
       console.error('SignIn error:', err)
-      return { success: false, message: 'Network error. Please try again.' }
+      // ✅ FIX: Distinguish network errors (offline / CORS) from server errors
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        return { success: false, message: 'Cannot reach server. Check your internet connection or try again shortly.' }
+      }
+      return { success: false, message: 'Something went wrong. Please try again.' }
     } finally {
       setIsLoading(false)
     }
@@ -82,20 +92,26 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ name, email, password }),
       })
 
-      // ✅ FIX: Guard against HTML error pages
       const contentType = res.headers.get('content-type') || ''
       if (!contentType.includes('application/json')) {
+        if (res.status === 503 || res.status === 502) {
+          return { success: false, message: 'Server is starting up, please wait 30 seconds and try again.' }
+        }
         return { success: false, message: `Server error (${res.status}). Please try again later.` }
       }
 
       const data = await res.json()
       if (data.success) {
+        // Auto sign-in after successful signup
         return await signIn(email, password)
       }
       return { success: false, message: data.message || 'Sign up failed' }
     } catch (err) {
       console.error('SignUp error:', err)
-      return { success: false, message: 'Network error. Please try again.' }
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        return { success: false, message: 'Cannot reach server. Check your internet connection or try again shortly.' }
+      }
+      return { success: false, message: 'Something went wrong. Please try again.' }
     } finally {
       setIsLoading(false)
     }

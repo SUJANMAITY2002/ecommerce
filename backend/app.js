@@ -1,36 +1,44 @@
 import express from 'express';
 import cors from 'cors';
-import payment from './routes/productRoutes.js';
-import AuthRouter from './routes/AuthRouter.js';
 import dotenv from 'dotenv';
-import './Models/db.js';
 
 dotenv.config({ path: "./.env" });
 
+import './Models/db.js';
+
+import payment from './routes/productRoutes.js';
+import AuthRouter from './routes/AuthRouter.js';
+
 const app = express();
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://ecommercesujan.netlify.app',
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// ✅ FIX: Use cors() as middleware BEFORE routes.
+// When preflightContinue is false (default), cors() automatically
+// responds to OPTIONS requests itself — no app.options() needed at all.
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ FIXED: Allow all your frontend origins including Render-hosted frontend
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "https://ecommercesujan.netlify.app",
-    // Add your Render frontend URL here if you have one, e.g.:
-    // "https://your-frontend.onrender.com"
-  ],
-  credentials: true
-}));
-
-// ✅ FIXED: Auth routes now mounted in app.js so they work on Render
 app.use('/api/auth', AuthRouter);
+app.use('/api/v1', payment);
 
-// Payment / product routes
-app.use("/api/v1", payment);
-
-// Health check — useful for Render to confirm the server is up
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 export default app;
